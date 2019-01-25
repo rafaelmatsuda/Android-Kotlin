@@ -2,10 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+            android:id="@+id/abrirCamera"
+            android:icon="@drawable/ic_photo_camera"
+            app:showAsAction="always"
+            android:iconTint="#000000"
+            android:title="Camera"/>
+    <item
             android:id="@+id/salvarTweetMenu"
             app:showAsAction="always"
             android:icon="@drawable/ic_check"
             android:iconTint="#000000"
             android:title="Salvar"/>
+
+
 
 </menu>

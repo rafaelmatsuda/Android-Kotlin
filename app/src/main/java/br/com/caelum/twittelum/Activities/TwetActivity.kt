@@ -3,8 +3,10 @@ package br.com.caelum.twittelum.Activities
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
@@ -50,17 +52,30 @@ class TwetActivity : AppCompatActivity() {
 
             }
 
+            R.id.abrirCamera ->{
+                tiraFoto()
+            }
+
             android.R.id.home ->{
                 finish()
 
                 false
             }
 
+
             else -> true
 
         }
 
 
+    }
+
+    private fun tiraFoto(): Boolean {
+
+        val vaiPraCamera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivity(vaiPraCamera)
+
+        return true
     }
 
     private fun publicaTweet(){
