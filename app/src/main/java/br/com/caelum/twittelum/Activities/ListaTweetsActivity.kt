@@ -2,9 +2,12 @@ package br.com.caelum.twittelum.Activities
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import br.com.caelum.twittelum.R
 import br.com.caelum.twittelum.bancoDeDados.TweetDao
@@ -34,7 +37,32 @@ class ListaTweetsActivity : AppCompatActivity() {
         fabNovoTweet.setOnClickListener {
             val intencao = Intent(this, TwetActivity::class.java)
             startActivity(intencao)
+
         }
+
+        val listener = AdapterView.OnItemClickListener{ adapter, listener, posicao, id ->
+
+            val tweet = listaTweets.getItemAtPosition(posicao) as Tweet
+
+            deletaSeNecessario(tweet)
+
+        }
+
+        listaTweets.onItemClickListener = listener
+    }
+
+    private fun deletaSeNecessario(tweet: Tweet) {
+
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Atenção!")
+        builder.setIcon(R.drawable.ic_warning)
+        builder.setMessage("Excluir o Tweet ?")
+
+        builder.setPositiveButton("Sim"){_:DialogInterface, _:Int -> viewModel.deleta(tweet)}
+        builder.setNegativeButton("Não", null)
+
+        builder.show();
     }
 
 }
