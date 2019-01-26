@@ -7,7 +7,7 @@ import android.content.Context
 import br.com.caelum.twittelum.application.TwittellumApp
 import br.com.caelum.twittelum.modelo.Tweet
 
-@Database(entities = [Tweet::class], version = 1)
+@Database(entities = [Tweet::class], version = 2)
 abstract class TwittelumDataBase : RoomDatabase() {
 
     abstract fun tweetDao():TweetDao
@@ -27,6 +27,7 @@ abstract class TwittelumDataBase : RoomDatabase() {
 
             return Room.databaseBuilder(instance, TwittelumDataBase::class.java, DATABASE)
                 .allowMainThreadQueries()
+                .addMigrations(Migra1Para2)
                 .build()
         }
     }

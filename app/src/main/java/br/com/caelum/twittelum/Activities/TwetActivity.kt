@@ -1,5 +1,6 @@
 package br.com.caelum.twittelum.Activities
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
@@ -20,6 +22,7 @@ import android.widget.Toast
 import br.com.caelum.twittelum.R
 import br.com.caelum.twittelum.bancoDeDados.TweetDao
 import br.com.caelum.twittelum.bancoDeDados.TwittelumDataBase
+import br.com.caelum.twittelum.extensions.decodificaParaBase64
 import br.com.caelum.twittelum.modelo.Tweet
 import br.com.caelum.twittelum.viewmodel.TweetViewModel
 import br.com.caelum.twittelum.viewmodel.ViewModelFactory
@@ -50,12 +53,20 @@ class TwetActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        localFoto?.let{
-            carregaFoto()
+        if (resultCode == Activity.RESULT_OK){
+            when(requestCode){
+
+                123 ->{
+                    carregaFoto()
+                }
+                else ->{
+                    localFoto = null
+                }
+            }
         }
+
     }
 
     private fun carregaFoto() {
@@ -66,7 +77,14 @@ class TwetActivity : AppCompatActivity() {
 
         FotoTweetForm.setImageBitmap(bm)
 
+        val fotoBase64 = bm.decodificaParaBase64()
+
+        FotoTweetForm.tag  = fotoBase64
+
         FotoTweetForm.scaleType = ImageView.ScaleType.FIT_XY
+
+
+
 
     }
 
@@ -108,7 +126,7 @@ class TwetActivity : AppCompatActivity() {
 
         vaiPraCamera.putExtra(MediaStore.EXTRA_OUTPUT, caminhoFoto)
 
-        startActivity(vaiPraCamera)
+        startActivityForResult(vaiPraCamera, 123)
 
         return true
     }
@@ -124,10 +142,23 @@ class TwetActivity : AppCompatActivity() {
 
     private fun publicaTweet(){
         val texto = findViewById<EditText>(R.id.tweet).text.toString()
-        val tweet = Tweet(texto)
+
+        val tweet = criaTweet()
 
         viewModel.salva(tweet)
 
         Toast.makeText(this, "$tweet ", Toast.LENGTH_LONG).show()
+    }
+
+    private fun criaTweet(): Tweet {
+
+        val campoDeMensagemDoTweet = findViewById<EditText>(R.id.tweet)
+
+        val mensagemDoTweet: String = campoDeMensagemDoTweet.text.toString()
+
+        val foto: String? = FotoTweetForm.tag as String?
+
+        return Tweet(mensagemDoTweet, foto)
+
     }
 }

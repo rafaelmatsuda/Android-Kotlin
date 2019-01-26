@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import br.com.caelum.twittelum.R
@@ -17,6 +18,7 @@ import br.com.caelum.twittelum.modelo.Tweet
 import br.com.caelum.twittelum.viewmodel.TweetViewModel
 import br.com.caelum.twittelum.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_lista_tweets.*
+import kotlinx.android.synthetic.main.activity_twet.*
 
 class ListaTweetsActivity : AppCompatActivity() {
 
@@ -32,6 +34,7 @@ class ListaTweetsActivity : AppCompatActivity() {
 
         liveData.observe(this, Observer { tweets ->
             listaTweets.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, tweets!!)
+            //Log.e("Foto","${tweets!![0].foto!!.trim()}")
         })
 
         fabNovoTweet.setOnClickListener {
