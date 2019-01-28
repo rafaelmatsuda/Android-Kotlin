@@ -147,7 +147,7 @@ class TwetActivity : AppCompatActivity() {
 
         viewModel.salva(tweet)
 
-        Toast.makeText(this, "$tweet ", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Tweet publicado com sucesso!", Toast.LENGTH_LONG).show()
     }
 
     private fun criaTweet(): Tweet {

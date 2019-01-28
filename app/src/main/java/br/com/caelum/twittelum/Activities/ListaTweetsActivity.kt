@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import br.com.caelum.twittelum.R
+import br.com.caelum.twittelum.adapter.TweetAdapter
 import br.com.caelum.twittelum.bancoDeDados.TweetDao
 import br.com.caelum.twittelum.bancoDeDados.TwittelumDataBase
 import br.com.caelum.twittelum.bancoDeDados.TwittelumDataBase_Impl
@@ -33,8 +34,16 @@ class ListaTweetsActivity : AppCompatActivity() {
         val liveData = viewModel.lista()
 
         liveData.observe(this, Observer { tweets ->
-            listaTweets.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, tweets!!)
-            //Log.e("Foto","${tweets!![0].foto!!.trim()}")
+            //listaTweets.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, tweets!!)
+
+            tweets?.let{
+
+                listaTweets.adapter = TweetAdapter(it)
+
+
+            }
+
+
         })
 
         fabNovoTweet.setOnClickListener {
